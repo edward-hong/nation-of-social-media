@@ -44,6 +44,10 @@ app.get('/', (req, res) => {
   res.sendFile('index.html', { root: path.join(__dirname, 'public') })
 })
 
+app.get('/usa', (req, res) => {
+  res.sendFile('usa.html', { root: path.join(__dirname, 'public') })
+})
+
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => console.log(`App started on port ${PORT}`))
