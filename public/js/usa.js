@@ -273,35 +273,22 @@ $(document).ready(function () {
               })
             break
           case 'instagram':
-            const searchInstagramUrl = `https://www.instagram.com/web/search/topsearch/?query=${username}`
-            $.getJSON(searchInstagramUrl).then(({ users }) => {
-              if (users.length !== 0) {
-                const followers = users.filter(function matchInstaUsername({
-                  user,
-                }) {
-                  return user.username === username
-                })
-                if (followers.length !== 0) {
-                  const {
-                    username: account,
-                    follower_count: followersCount,
-                  } = followers[0].user
-                  const countObj = renderMap(
-                    followersCount,
-                    '#7031d1',
-                    account,
-                    numberWithCommas(followersCount),
-                  )
+            const searchInstagramUrl = `/api/instagram/${username}`
+            $.getJSON(searchInstagramUrl).then(({ followers }) => {
+              if (followers.length !== 0) {
+                const countObj = renderMap(
+                  followers,
+                  '#7031d1',
+                  username,
+                  numberWithCommas(followers),
+                )
 
-                  handleSearchResults(
-                    account,
-                    numberWithCommas(followersCount),
-                    'Instagram followers',
-                    plurality(countObj.US, 'state'),
-                  )
-                } else {
-                  invalidUsernameMessage('Instagram handle')
-                }
+                handleSearchResults(
+                  username,
+                  numberWithCommas(followers),
+                  'Instagram followers',
+                  plurality(countObj.US, 'state'),
+                )
               } else {
                 invalidUsernameMessage('Instagram handle')
               }
