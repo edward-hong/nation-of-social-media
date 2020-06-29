@@ -4,9 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "lint-staged": {
+    "*.js ": [
+      "npm run staging-eslint:fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "pre-commit": "lint-staged"
   },
   "keywords": [],
   "author": "Edward Hong",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5"
+  }
 }
