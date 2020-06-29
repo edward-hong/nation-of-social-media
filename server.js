@@ -1,8 +1,8 @@
 require('dotenv').config()
 const path = require('path')
 const express = require('express')
-const axios = require('axios')
 const Twitter = require('twitter')
+const request = require('request')
 
 const app = express()
 
@@ -30,14 +30,16 @@ app.get('/api/twitter/:username', (req, res) => {
 })
 
 app.get('/api/instagram/:username', (req, res) => {
-  axios
-    .get(`https://www.instagram.com/${req.params.username}/?__a=1`)
-    .then(({ data }) => {
-      res.json({ followers: data.graphql.user.edge_followed_by.count })
-    })
-    .catch((error) => {
-      res.json({ error })
-    })
+  const url = `https://www.instagram.com/${req.params.username}`
+  request.get(url, function (err, response, body) {
+    if (response.body.indexOf('"edge_followed_by":{"count":') != -1) {
+      res.json({
+        followers: parseInt(
+          response.body.split('"edge_followed_by":{"count":')[1],
+        ),
+      })
+    }
+  })
 })
 
 app.get('/', (req, res) => {
