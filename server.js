@@ -30,15 +30,21 @@ app.get('/api/twitter/:username', (req, res) => {
 })
 
 app.get('/api/instagram/:username', (req, res) => {
-  const url = `https://www.instagram.com/${req.params.username}`
+  // const url = `https://www.instagram.com/${req.params.username}`
+  // request.get(url, function (err, response, body) {
+  //   if (response.body.indexOf('"edge_followed_by":{"count":') != -1) {
+  //     res.json({
+  //       followers: parseInt(
+  //         response.body.split('"edge_followed_by":{"count":')[1],
+  //       ),
+  //     })
+  //   }
+  // })
+  const url = `https://www.instagram.com/${req.params.username}/?__a=1`
   request.get(url, function (err, response, body) {
-    if (response.body.indexOf('"edge_followed_by":{"count":') != -1) {
-      res.json({
-        followers: parseInt(
-          response.body.split('"edge_followed_by":{"count":')[1],
-        ),
-      })
-    }
+    res.json({
+      followers: JSON.parse(response.body).graphql.user.edge_followed_by.count,
+    })
   })
 })
 
