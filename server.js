@@ -3,6 +3,7 @@ const path = require('path')
 const express = require('express')
 const Twitter = require('twitter')
 const request = require('request')
+const exphbs = require('express-handlebars')
 
 const app = express()
 
@@ -15,6 +16,20 @@ const client = new Twitter({
 
 app.use(express.static('public'))
 
+const hbs = exphbs.create({
+  defaultLayout: 'main',
+  helpers: {
+    section: function (name, options) {
+      if (!this._sections) this._sections = {}
+      this._sections[name] = options.fn(this)
+      return null
+    },
+  },
+})
+
+app.engine('handlebars', hbs.engine)
+app.set('view engine', 'handlebars')
+
 app.get('/api/youtube/key', (req, res) => {
   res.json({ key: process.env.YOUTUBE_API_KEY })
 })
@@ -25,7 +40,7 @@ app.get('/api/twitter/:username', (req, res) => {
     { screen_name: req.params.username },
     (err, tweets, response) => {
       res.json({ followers: JSON.parse(response.body).followers_count })
-    },
+    }
   )
 })
 
@@ -49,15 +64,15 @@ app.get('/api/instagram/:username', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html', { root: path.join(__dirname, 'public') })
+  res.render('index')
 })
 
 app.get('/usa', (req, res) => {
-  res.sendFile('usa.html', { root: path.join(__dirname, 'public') })
+  res.render('usa')
 })
 
 app.get('/about', (req, res) => {
-  res.sendFile('about.html', { root: path.join(__dirname, 'public') })
+  res.render('about')
 })
 
 const PORT = process.env.PORT || 3000
