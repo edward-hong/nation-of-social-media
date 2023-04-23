@@ -35,7 +35,7 @@ function handleSwitchSearchTypeGenerator(getPlaceholder) {
 function getChannelDataFromSearchedResults(searchResults, username) {
   return searchResults.filter(
     ({ snippet: { channelTitle } }) =>
-      channelTitle.toLowerCase() == username.toLowerCase(),
+      channelTitle.toLowerCase() == username.toLowerCase()
   )[0]
 }
 
@@ -52,7 +52,7 @@ function generateSearchMessageHtml(
   account,
   followerCount,
   followerText,
-  numOfCountries,
+  numOfCountries
 ) {
   return `${
     followerText === 'Twitter followers' ? '@' : ''
@@ -64,7 +64,7 @@ function generateSearchMessageHtml(
 function generateTweetText(account, followerCount, followerText, numOfAreas) {
   return `${
     followerText === 'Twitter followers' ? '%40' : ''
-  }${account} has ${followerCount} ${followerText}. That's more than the population of ${numOfAreas}! %23NationOfSocialMedia bit.ly/38aGVUx`
+  }${account} has ${followerCount} ${followerText}. That's more than the population of ${numOfAreas}! %23NationOfSocialMedia bitly.ws/DpdX`
 }
 
 function handleSearchResults(name, num, platform, countObj) {
