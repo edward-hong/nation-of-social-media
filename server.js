@@ -1,8 +1,7 @@
 require('dotenv').config()
-const path = require('path')
 const express = require('express')
 const Twitter = require('twitter')
-const request = require('request')
+const fetch = require('node-fetch')
 const exphbs = require('express-handlebars')
 
 const app = express()
@@ -44,23 +43,13 @@ app.get('/api/twitter/:username', (req, res) => {
   )
 })
 
-app.get('/api/instagram/:username', (req, res) => {
-  // const url = `https://www.instagram.com/${req.params.username}`
-  // request.get(url, function (err, response, body) {
-  //   if (response.body.indexOf('"edge_followed_by":{"count":') != -1) {
-  //     res.json({
-  //       followers: parseInt(
-  //         response.body.split('"edge_followed_by":{"count":')[1],
-  //       ),
-  //     })
-  //   }
-  // })
-  const url = `https://www.instagram.com/${req.params.username}/?__a=1`
-  request.get(url, function (err, response, body) {
-    res.json({
-      followers: JSON.parse(response.body).graphql.user.edge_followed_by.count,
-    })
-  })
+app.get('/api/instagram/:username', async (req, res) => {
+  const response = await fetch(
+    `https://instagram.com/${req.params.username}/?__a=1&__d=1`
+  )
+  const data = await response.json()
+
+  res.json({ followers: data.graphql.user.edge_followed_by.count })
 })
 
 app.get('/', (req, res) => {
