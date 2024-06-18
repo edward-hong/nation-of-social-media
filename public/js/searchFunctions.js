@@ -8,16 +8,7 @@ function getSearchType(searchBar) {
 }
 
 function getPlaceholderFromSearchType(searchType) {
-  switch (searchType) {
-    case 'youtube':
-      return 'Enter Youtube Username'
-    case 'twitter':
-      return 'Enter Twitter Handle'
-    case 'instagram':
-      return 'Enter Instagram Handle'
-    default:
-      return ''
-  }
+  return 'influencer ad space'
 }
 
 function handleSwitchSearchTypeGenerator(getPlaceholder) {

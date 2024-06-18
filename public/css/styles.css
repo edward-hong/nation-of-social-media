@@ -323,6 +323,10 @@ nav.scrolled {
   transition: all 1s ease-in-out;
 }
 
+#wrapper p {
+  color: #fff;
+}
+
 .layer {
   position: absolute;
   width: 100vw;
@@ -480,6 +484,10 @@ nav.scrolled {
     margin-top: 100px;
     display: flex;
     flex-direction: column-reverse;
+  }
+
+  #wrapper p {
+    color: #fff;
   }
   .layer {
     position: static;
